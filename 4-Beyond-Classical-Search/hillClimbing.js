@@ -147,7 +147,7 @@ $(document).ready(function(){
 		return terrain;*/
 		
 		// Handcrafted terrain
-		return [2,2,3,4,5,4,3,2,3,4,5,6,7,6,5,4,3,2,3,4,5,6,5,4,3,2,3,4,5,6,7,6,5,4,3];
+		return [2,2,3,4,5,4,3,2,3,4,5,6,7,6,5,4,3,2,3,4,5,6,5,4,3,2,3,4,5,6,7,6,5,4,3,2,1];
 	}
 		
 	var offset = $('#hillCanvas').offset();
