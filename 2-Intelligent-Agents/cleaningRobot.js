@@ -13,6 +13,5 @@ var Robot = function(x,y){
 
 	// We start as left state
 	this.state = this.STATES.LEFT;
-
 	return this;
 }

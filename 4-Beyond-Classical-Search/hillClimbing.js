@@ -13,9 +13,8 @@ var HillClimber = function(){
 	// Decide where to go based on height
 	this.decide = function(left,current,right){
 		if(left == right && left > current){
-			this.currentDecision = Math.random() > 0.5 ?
+			this.currentDecision = Math.random() > .5 ?
 			this.DECISIONS.LEFT: this.DECISIONS.RIGHT;
-
 		} else if(right == null || left > right){
 			this.currentDecision = this.DECISIONS.LEFT;
 		} else if (left == null || right > left) {
@@ -24,5 +23,5 @@ var HillClimber = function(){
 			this.currentDecision = this.DECISIONS.STAY;
 		}
 		return this.currentDecision;
-	}
+	}	
 }
