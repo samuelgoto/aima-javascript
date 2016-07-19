@@ -1,7 +1,3 @@
-/*
-Logic for LRTA Agent
-Author: Souradeep Nanda
-*/
 var LrtaAgent = function(problem){
 	this.problem = problem;
 	this.result = new Array(this.problem.TOTAL_STATES);

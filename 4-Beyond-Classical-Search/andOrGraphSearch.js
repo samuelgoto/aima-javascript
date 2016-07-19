@@ -1,7 +1,3 @@
-/*
-Logic for non-deterministic vacuuming robot
-Author: Souradeep Nanda
-*/
 var AndOrGraphSearch = function(){
 	this.orSearch = function(state,problem,path){
 		// If goal is reached then no more planning required

@@ -1,8 +1,3 @@
-/*
-Logic for the genetic algorithm
-Author: Souradeep Nanda
-*/
-
 var GeneticAlgorithm = function(fitnessFunction,mutationChance){
 	this.f = fitnessFunction;
 	this.mutationChance = mutationChance;

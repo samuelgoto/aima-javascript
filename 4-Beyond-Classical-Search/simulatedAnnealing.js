@@ -1,8 +1,3 @@
-/*
-Logic for the simulated annealing
-Author: Souradeep Nanda
-*/
-
 var SimulatedAnnealing = function(x,k,T){
 	this.x = x; // Starting state
 	this.k = k; // Boltzmann constant

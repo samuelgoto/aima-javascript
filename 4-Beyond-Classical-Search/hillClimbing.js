@@ -1,8 +1,3 @@
-/*
-Logic for the hill climber robot
-Author: Souradeep Nanda
-*/
-
 var HillClimber = function(){
 	// Should the robot go left, right or stay where it is
 	this.DECISIONS = {

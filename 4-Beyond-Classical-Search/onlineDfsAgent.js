@@ -1,7 +1,3 @@
-/*
-Logic for Online DFS Agent
-Author: Souradeep Nanda
-*/
 var OnlineDfsAgent = function(problem){
 	this.problem = problem;
 	this.state = problem.INITIAL;
