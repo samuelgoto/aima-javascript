@@ -1,1 +1,3 @@
-// Code for Depth First Search
+var depthFirstSearch = function(frontier){
+  return frontier[frontier.length - 1];
+}

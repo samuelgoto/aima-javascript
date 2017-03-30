@@ -45,7 +45,7 @@ $(document).ready(function(){
 		climberHandle = two.makeRectangle(positionX * SIZE,
 			h - positionY * SIZE,
 			SIZE,SIZE);
-			climberHandle.noStroke()
+			climberHandle.noStroke();
 			climberHandle.fill = 'rgb(213, 0, 11)';
 
 			two.update();

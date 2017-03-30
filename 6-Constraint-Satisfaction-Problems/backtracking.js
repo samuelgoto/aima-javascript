@@ -1,4 +1,4 @@
-var CSP = {}; 
+var CSP = {};
 
 /****
  * vars        An array of variables
@@ -10,8 +10,8 @@ CSP.get_solution = function(vars_list, domains_list, neighbours, constraints){
 	//sort the vars array and put the one with the highest number of constraints first
 	vars_list.sort(function (a,b){
 		return neighbours[b].length - neighbours[a].length;
-	})
-	
+	});
+
 	//recurse into a solution selector
 	var res = CSP.select_soln([], vars_list, domains_list, neighbours, constraints);
 	//convert the res array into an object
@@ -19,7 +19,7 @@ CSP.get_solution = function(vars_list, domains_list, neighbours, constraints){
 		var soln_obj = {};
 		res.map(function(val, i, arr){
 			soln_obj[val["variable"]] = val["soln"];
-		})
+		});
 		return soln_obj;
 	}else
 		return false;
@@ -38,8 +38,8 @@ CSP.select_soln = function(assigned, vars_left, domains_left, neighbours, constr
 			//this path is not viable
 			return false;
 		}
-		
-		var new_domains = clone(domains_left);
+
+		var new_domains = Object.clone(domains_left);
 
 		//now that we know there are still options here...
 		for (var i = 0; i < domains_left[solve_for].length; i++){
@@ -64,8 +64,8 @@ CSP.select_soln = function(assigned, vars_left, domains_left, neighbours, constr
 
 			var viable = (function(a, v, d, n, c){
 				return CSP.select_soln(a, v, d, n, c);
-			})(Array.prototype.concat(assigned, {variable: solve_for, soln: proposed}), 
-			   clone(vars_left), 
+			})(Array.prototype.concat(assigned, {variable: solve_for, soln: proposed}),
+			   clone(vars_left),
 			   new_domains,
 			   neighbours,
 			   constraints_fn);
@@ -78,5 +78,5 @@ CSP.select_soln = function(assigned, vars_left, domains_left, neighbours, constr
 		//this path is not viable
 		return false;
 	}
-	
+
 };

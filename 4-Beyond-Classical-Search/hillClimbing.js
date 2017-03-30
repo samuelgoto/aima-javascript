@@ -18,5 +18,5 @@ var HillClimber = function(){
 			this.currentDecision = this.DECISIONS.STAY;
 		}
 		return this.currentDecision;
-	}	
-}
+	};
+};
