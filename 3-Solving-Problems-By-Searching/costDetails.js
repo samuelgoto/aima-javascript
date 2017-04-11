@@ -1,47 +1,36 @@
-var findShortestPath = function(adjMatrix, initial, final, ucs) {
+var findShortestPath = function(nextNodeFunction, final) {
   var shortestPath = {
     path: [],
     cost: 0
   }
-  var agent = new nodeExpansionAgent(adjMatrix, initial);
-  while (agent.frontier.length > 0) {
-    if (ucs) {
-      next = agent.frontier[uniformCostSearch(agent.frontier, agent.getCosts())];
-    } else {
-      next = breadthFirstSearch(agent.frontier);
-    }
+  let graph = new DefaultGraph();
+  problem = new GraphProblem(graph.nodes, graph.edges, 'A', null);
+  //Make a new problem fromt the graph and solve it using the given nextNodeFunction
+  let agent = new GraphAgent(problem, 'ucs');
+  while (problem.frontier.length > 0) {
+    let next = nextNodeFunction(problem);
     agent.expand(next);
-    for (var i = 0; i < adjMatrix[next].length; i++) {
-      if (adjMatrix[next][i] > 0) {
-        neighbor = i;
-        frontierIndex = agent.frontier.indexOf(neighbor);
-        if (frontierIndex > -1) {
-          if (agent.nodes[neighbor].cost > agent.nodes[next].cost + adjMatrix[next][neighbor]) {
-            agent.nodes[neighbor].cost = agent.nodes[next].cost + adjMatrix[next][neighbor];
-            agent.nodes[neighbor].parent = next;
-          }
-        }
-      }
-    };
-    if (next == current) {
+    //Exit if final node reached
+    if (next == final) {
       break;
     }
   }
-  shortestPath.cost = agent.nodes[final].cost;
+  shortestPath.cost = problem.nodes[final].cost;
   var current = final;
-  var runningCost = 0
-  shortestPath.path.push({
-    node: final,
-    cost: runningCost
-  });
-  while (current != initial) {
-    runningCost = runningCost + adjMatrix[current][agent.nodes[current].parent];
-    current = agent.nodes[current].parent;
+  //Iterate from the final to initial node using parent property to find the path
+  while (current != problem.initialKey) {
+    let prev = problem.nodes[current].parent;
+    currentCost = problem.nodes[current].cost - problem.nodes[prev].cost;
     shortestPath.path.push({
       node: current,
-      cost: runningCost
+      cost: currentCost
     });
+    current = prev;
   }
-
+  //Push the initial node to the path array
+  shortestPath.path.push({
+    node: problem.initialKey,
+    cost: 0
+  })
   return shortestPath;
 }
