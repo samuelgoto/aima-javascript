@@ -2,8 +2,6 @@
 <html>
 <head>
 	<title>Adversarial Search Prototype</title>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/two.js/0.6.0/two.js"></script>
-	<script src=	"https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
 	<script src="banner.js"></script>
 	<script src="board.js"></script>
 	<script src="tree.js"></script>
@@ -16,7 +14,9 @@
 	<script src="bigtree.js"></script>
 	<script src="transition.js"></script>
 	<script src="parallax2.js"></script>
-	<script src="alphabeta.js"></script>
+	<script src="nalphabeta.js"></script>
+	<script src="badtree.js"></script>
+	<script src="deepening.js"></script>
 	<script src="main.js"></script>
 	<style>
 		* {
@@ -189,6 +189,13 @@
 		#transitionButton:hover {
 			box-shadow: 0px 0px;
 		}
+		.abp {
+			stroke-width: 0.04em;
+			stroke: black;
+			fill: hsl(240,50%,70%);
+			font-weight: 900;
+			font-size: 0.5em;
+		}
 	</style>
 </head>
 <body onload="main()">
@@ -254,11 +261,28 @@
 		</div>
 		<div class="figures" id="transitionCanvas"></div>
 	
+		<div class="text">We can account for this by keeping track of the best and worst case scenario.
+			</div>
 		<div class="grid">
 			<div id='parallax2Text' class="text">
 				<div></div>
 				<div id="parallax2_text1">
-					We can account for this by keeping track of the best and worst case scenario.
+					We store the best and worst options we find in α and β. We start by filling them with two extreme values so that we don't discard our first options. 
+				</div>
+				<div id="parallax2_text2">
+					The first option has a value of 1!
+				</div>
+				<div id="parallax2_text3">
+					Now we return to our parent. It's the root player's choice so we compare it with α and find that value we found is better, so we update it.
+				</div>
+				<div id="parallax2_text4">
+					Now we start looking at the next child. We pass the current node's α and β to it.
+				</div>
+				<div id="parallax2_text5">
+					This node isn't a leaf/terminal node, so we look at it's children as well. We find that the first one has a value of 0!
+				</div>
+				<div id="parallax2_text6">
+					Because the opposing player picks the move on this node, we compare it with β, and find it to be better(worse for us), so we update it. However we notice that α is now greater than β. This means that in the best case for us, this branch is already worse(0) than another option(1) that we've already found. We now have no reason to keep looking into this branch.
 				</div>
 			</div>
 			<div id="parallax2Canvas"></div>
@@ -267,11 +291,6 @@
 		<div class="text" id="alphabetaText">
 			This will give us identical results to Minimax, but will give us vastly better performance.
 		</div>
-		<select id="alphabetaSelect">
-			<option value="1">Alpha Beta</option>
-			<option value="2">Reverse Alpha Beta</option>
-			<!--<option value="3">Minimax</option>-->
-		</select>
 	</div>
 
 	<div class="figures" id="alphabetaCanvas"></div>
@@ -282,6 +301,20 @@
 			One thing to keep in mind is that alpha beta cannot guarantee that we’ll get better performance. The order in which things are evaluated makes a huge difference. We're lucky because the most valueable move is found first, but it's perfectly plausible that we'll evaluate moves in increasing value, meaning that we could see little to no performance increase.
 		</div>
 	</div>
+	
+	<div class="figures" id="badtreeCanvas"></div>
+	<div style="text-align: center;"><input style="width: 60%;" type="range" min="0" max="141" value="0" class="slider" id="badtreeRange"></div>
+
+	<div class="content-container">
+		<div class="text">
+			Luckily there are a few things that we use to help us avoid this problems. One solution is to pick a random move each turn. Doing that can help us avoid falling into obvious patterns, which may have helped us in the above example. Heuristics can also help us. For example, in chess, moves that lead to captures will often be a good indicator of which move to pick. Finally, we can also employ iterative deepening, choosing to expand the path leading to the most valuable state first, as previous states are a good indicator of future states. This encours a slight overhead, but it’s often worth it in larger trees. Here is an example of it in action:
+		</div>
+
+		<div class="figures" id="deepeningCanvas"></div>
+		<div style="text-align: center;"><input style="width: 100%;" type="range" min="0" max="141" value="0" class="slider" id="deepeningRange"></div>
+
+	</div>
+
 	
 	<div id="footer"></div>
 </body>

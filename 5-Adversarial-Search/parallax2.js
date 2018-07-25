@@ -1,139 +1,117 @@
 function parallax2() {
-	let scale = 100
+	let scale = 150
 	let text = document.getElementById("parallax2Text")
 	let div = document.getElementById("parallax2Canvas")
 	let canvas = document.createElementNS("http://www.w3.org/2000/svg", 'svg')
 	let color = 'hsl(0,0%,50%)'
-	let br1 = draw_line(50, 43, 25, 56, canvas)
-	let br2 = draw_line(50, 43, 75, 56, canvas)
-	br1.setAttribute('stroke', color)
-	br2.setAttribute('stroke', color)
-	let bg1 = new BoardGraphic(new Board([-1,1,1,1,-1,0,1,-1,0], -1), 50, 33, canvas)
-	let bg2 = new BoardGraphic(new Board([-1,1,1,1,-1,-1,1,-1,0], -1), 25, 66, canvas)
-	let bg3 = new BoardGraphic(new Board([-1,1,1,1,-1,0,1,-1,-1], -1), 75, 66, canvas)
-	//let label1 = draw_text(25, 90, "Value: 0", "para_label", canvas)
-	//let label2 = draw_text(75, 90, "Value: ∞", "para_label", canvas)
 	div.appendChild(canvas)
-	canvas.setAttribute('viewBox', '0 0 ' + scale + ' ' + scale + ' ')
-	let text1 = document.getElementById("parallax2_text1")
-
-
-	function set_board(board) {
-			
-		for (let i = 0; i < 9; i++) {
-			board.cross_marks[i].setAttribute('stroke', color)
-			board.circle_marks[i].setAttribute('stroke', color)
+	canvas.setAttribute('viewBox', '0 0 ' + scale + ' ' + scale/1.5 + ' ')
+	let tree = new Tree(new Board([0,-1,-1,1,0,0,1,-1,1], 1), 2)
+	tree.children.pop() 
+	equip_graphics(tree, 0, scale, 12, 8, canvas)
+	function clean(tree){
+		tree.graphic.l1.setAttribute("opacity", 0.0)
+		tree.graphic.l2.setAttribute("opacity", 0.0)
+		tree.graphic.l3.setAttribute("opacity", 0.0)
+		tree.graphic.l4.setAttribute("opacity", 0.0)
+		
+		for(let i = 0; i < 9; i++) {
+			tree.graphic.cross_marks[i].setAttribute("opacity", 0.0)
+			tree.graphic.circle_marks[i].setAttribute("opacity", 0.0)
 		}
-		board.rect.setAttribute('stroke', color)
-		board.l1.setAttribute('stroke', color)
-		board.l2.setAttribute('stroke', color)
-		board.l3.setAttribute('stroke', color)
-		board.l4.setAttribute('stroke', color)
+		for(let i = 0; i < tree.children.length; i++) {
+			clean(tree.children[i])
+		}
+
+		if (tree.board.gameState == 0) {
+			let x = parseInt(tree.graphic.message.getAttribute('x'))
+			let y = parseInt(tree.graphic.message.getAttribute('y'))
+			tree.graphic.message = undefined
+			tree.graphic.alpha = draw_text(x, y-5, "", 'abp', canvas)
+			tree.graphic.beta = draw_text(x, y+5, "", 'abp', canvas)
+		}
 	}
+	clean(tree)
+	let text1 = document.getElementById("parallax2_text1")
+	let text2 = document.getElementById("parallax2_text2")
+	let text3 = document.getElementById("parallax2_text3")
+	let text4 = document.getElementById("parallax2_text4")
+	let text5 = document.getElementById("parallax2_text5")
+	let text6 = document.getElementById("parallax2_text6")
+	let gra1 = s = tree.search(1)
+	let gra2 = s = tree.search(2)
+	let gra3 = s = tree.search(3)
+	let gra4 = s = tree.search(4)
+	let gra5 = s = tree.search(5)
 	
-	set_board(bg1)
-	set_board(bg2)
-	set_board(bg3)
     let active = false
 	let last_state = undefined
-	let bot = true
+	
 	function display(state) {
-		
-
 		text1.setAttribute("class", "parallax_inactive")
 		text2.setAttribute("class", "parallax_inactive")
 		text3.setAttribute("class", "parallax_inactive")
 		text4.setAttribute("class", "parallax_inactive")
 		text5.setAttribute("class", "parallax_inactive")
 		text6.setAttribute("class", "parallax_inactive")
-		text7.setAttribute("class", "parallax_inactive")
+		gra1.graphic.alpha.innerHTML = ""
+		gra1.graphic.beta.innerHTML = ""
+		gra2.graphic.message.innerHTML = ""
+		gra3.graphic.alpha.innerHTML = ""
+		gra3.graphic.beta.innerHTML = ""
+		gra4.graphic.message.innerHTML = ""
+
+		let s = undefined
 		switch(state){
 			case 1:
-				bg2.message.setAttribute("class", "board_status")
-				bg3.message.setAttribute("class", "board_status")
 				text1.setAttribute("class", "parallax_active")
-				br1.setAttribute('opacity', 1)
-				br2.setAttribute('opacity', 1)
-				bg1.group.setAttribute('opacity', 1)
-				bg2.group.setAttribute('opacity', 1)
-				bg3.group.setAttribute('opacity', 1)
-				label1.setAttribute('opacity', 0.0)
-				label2.setAttribute('opacity', 0.0)
+				gra1.graphic.alpha.innerHTML = "α: -∞"
+				gra1.graphic.beta.innerHTML = "β: ∞"
 				break
 			case 2:
-				bg2.message.setAttribute("class", "board_status")
-				bg3.message.setAttribute("class", "board_status")
 				text2.setAttribute("class", "parallax_active")
-				br1.setAttribute('opacity', 0.2)
-				br2.setAttribute('opacity', 0.2)
-				bg1.group.setAttribute('opacity', 0.2)
-				bg2.group.setAttribute('opacity', 1.0)
-				bg3.group.setAttribute('opacity', 0.2)
-				label1.setAttribute('opacity', 0.0)
-				label2.setAttribute('opacity', 0.0)
+				gra1.graphic.alpha.innerHTML = "α: -∞"
+				gra1.graphic.beta.innerHTML = "β: ∞"
+				gra2.graphic.message.innerHTML = "1"
+				gra2.graphic.message.setAttribute('class', 'draw_status board_status_active')
 				break
 			case 3:
-		
-				bg2.message.setAttribute("class", "draw_status board_status_active")
-				bg3.message.setAttribute("class", "board_status")
 				text3.setAttribute("class", "parallax_active")
-				br1.setAttribute('opacity', 0.2)
-				br2.setAttribute('opacity', 0.2)
-				bg1.group.setAttribute('opacity', 0.2)
-				bg2.group.setAttribute('opacity', 1.0)
-				bg3.group.setAttribute('opacity', 0.2)
-				label1.setAttribute('opacity', 1.0)
-				label2.setAttribute('opacity', 0.0)
+				gra1.graphic.alpha.innerHTML = "α: 1"
+				gra1.graphic.beta.innerHTML = "β: ∞"
+				gra2.graphic.message.innerHTML = "1"
+				gra2.graphic.message.setAttribute('class', 'draw_status board_status_active')
 				break
 			case 4:
-				bg2.message.setAttribute("class", "draw_status board_status_active")
-				bg3.message.setAttribute("class", "board_status")
 				text4.setAttribute("class", "parallax_active")
-				br1.setAttribute('opacity', 0.2)
-				br2.setAttribute('opacity', 0.2)
-				bg1.group.setAttribute('opacity', 1)
-				bg2.group.setAttribute('opacity', 0.2)
-				bg3.group.setAttribute('opacity', 0.2)
-				label1.setAttribute('opacity', 0.2)
-				label2.setAttribute('opacity', 0.0)
+				gra1.graphic.alpha.innerHTML = "α: 1"
+				gra1.graphic.beta.innerHTML = "β: ∞"
+				gra2.graphic.message.innerHTML = "1"
+				gra2.graphic.message.setAttribute('class', 'draw_status board_status_active')
+				gra3.graphic.alpha.innerHTML = "α: 1"
+				gra3.graphic.beta.innerHTML = "β: ∞"
 				break
 			case 5:
-			
-				bg2.message.setAttribute("class", "draw_status board_status_active")
-				bg3.message.setAttribute("class", "cross_status board_status_active")
-				text5.setAttribute("class", "parallax_active")
-				br1.setAttribute('opacity', 0.2)
-				br2.setAttribute('opacity', 0.2)
-				bg1.group.setAttribute('opacity', 0.2)
-				bg2.group.setAttribute('opacity', 0.2)
-				bg3.group.setAttribute('opacity', 1)
-				label1.setAttribute('opacity', 0.2)
-				label2.setAttribute('opacity', 1.0)
-				break;
-			case 6:
-				
-				bg2.message.setAttribute("class", "draw_status board_status_active")
-				bg3.message.setAttribute("class", "cross_status board_status_active")
-				text6.setAttribute("class", "parallax_active")
-				br1.setAttribute('opacity', 0.2)
-				br2.setAttribute('opacity', 0.2)
-				bg1.group.setAttribute('opacity', 1)
-				bg2.group.setAttribute('opacity', 0.2)
-				bg3.group.setAttribute('opacity', 0.2)
-				label1.setAttribute('opacity', 0.2)
-				label2.setAttribute('opacity', 0.2)
+				text5.setAttribute("class", "parallax_active")				
+				gra1.graphic.alpha.innerHTML = "α: 1"
+				gra1.graphic.beta.innerHTML = "β: ∞"
+				gra2.graphic.message.innerHTML = "1"
+				gra2.graphic.message.setAttribute('class', 'draw_status board_status_active')
+				gra3.graphic.alpha.innerHTML = "α: 1"
+				gra3.graphic.beta.innerHTML = "β: ∞"
+				gra4.graphic.message.innerHTML = "0"
+				gra4.graphic.message.setAttribute('class', 'draw_status board_status_active')
 				break
-			case 7:
-				bg2.message.setAttribute("class", "draw_status board_status_active")
-				bg3.message.setAttribute("class", "cross_status board_status_active")
-				text7.setAttribute("class", "parallax_active")
-				br1.setAttribute('opacity', 0.1)
-				br2.setAttribute('opacity', 1)
-				bg1.group.setAttribute('opacity', 1)
-				bg2.group.setAttribute('opacity', 0.1)
-				bg3.group.setAttribute('opacity', 1)
-				label1.setAttribute('opacity', 0.1)
-				label2.setAttribute('opacity', 1)
+			case 6:
+				text6.setAttribute("class", "parallax_active")
+				gra1.graphic.alpha.innerHTML = "α: 1"
+				gra1.graphic.beta.innerHTML = "β: ∞"
+				gra2.graphic.message.innerHTML = "1"
+				gra2.graphic.message.setAttribute('class', 'draw_status board_status_active')
+				gra3.graphic.alpha.innerHTML = "α: 1"
+				gra3.graphic.beta.innerHTML = "β: 0"
+				gra4.graphic.message.innerHTML = "0"
+				gra4.graphic.message.setAttribute('class', 'draw_status board_status_active')
 				break
 		}
 	}
@@ -165,10 +143,6 @@ function parallax2() {
 			else if (window.scrollY < text6.offsetTop - div.clientHeight/2) {
 				cur_state = 6
 			}
-			else {
-				cur_state = 7
-			}
-            
             if (cur_state != last_state) {
                 display(cur_state)
             }
