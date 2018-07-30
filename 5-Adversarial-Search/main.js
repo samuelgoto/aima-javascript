@@ -10,6 +10,7 @@ function main() {
     alphabeta();
     badtree();
     deepening();
+    comparison();
     function position_tracker(e) {
         document.dispatchEvent(new Event('parallax1event'));
     }

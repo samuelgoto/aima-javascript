@@ -13,7 +13,7 @@ function parallax1() {
 	let bg2 = new BoardGraphic(new Board([-1,1,1,1,-1,-1,1,-1,0], -1), 25, 66, canvas);
 	let bg3 = new BoardGraphic(new Board([-1,1,1,1,-1,0,1,-1,-1], -1), 75, 66, canvas);
 	let label1 = draw_text(25, 90, "Value: 0", "para_label", canvas);
-	let label2 = draw_text(75, 90, "Value: ∞", "para_label", canvas);
+	let label2 = draw_text(75, 90, "Value: 1", "para_label", canvas);
 	div.appendChild(canvas);
 	canvas.setAttribute('viewBox', '0 0 ' + scale + ' ' + scale + ' ');
 	let text1 = document.getElementById("parallax_text1");

@@ -162,11 +162,19 @@ function minimax(tree) {
 	active.push([tree.id, best])
 	
 	function remove(node) {
-		active = active.filter(id => id[0] != node.id)
-		let ele = active.find(id => id[0] == node.id)
-		active.push([node.id, 4])
-		for(let i = 0; i < node.children.length; i++)
-			remove(node.children[i])
+		let s = undefined
+		let ele = active.find(id => id[0] == node.id);
+		switch(ele[1]) {
+			case 0: s = 3; break;
+			case 1: s = 4; break;
+			case 2: s = 5; break;
+			default: s = 4; break;
+		}
+		active = active.filter(id => id[0] != node.id);
+		active.push([node.id, s]);
+		for(let i = 0; i < node.children.length; i++) {
+			remove(node.children[i]);	
+		}
 	}
 	for(let i = 0; i < tree.children.length; i++) {
 		if(i == which)
@@ -186,6 +194,7 @@ function alphabeta(tree, alpha, beta) {
 	let value = evaluate(tree)
 	abactive.push([tree.id, value])
 	abresults.push(abactive.slice(0))
+	//console.log(abactive);
 	if (value != undefined) {
 		return value
 	}
@@ -207,34 +216,41 @@ function alphabeta(tree, alpha, beta) {
 			break
 	}
 
-	abactive = abactive.filter(id => id[0] != tree.id)
-	abactive.push([tree.id, best])
-	/*
-	function remove(tree) {
-		abactive = abactive.filter(id => id[0] != tree.id)
-		for(let i = 0; i < tree.children.length; i++)
-			remove(tree.children[i])
-	}
-	for(let i = 0; i < tree.children.length; i++) {
-		if(i == which)
-			continue
-		remove(tree.children[i])
-	}
-	*/
+	abactive = abactive.filter(id => id[0] != tree.id);
+	abactive.push([tree.id, best]);
+	//console.log(abactive)
+
 	function remove(node) {
-		abactive = abactive.filter(id => id[0] != node.id)
-		let ele = abactive.find(id => id[0] == node.id)
-		abactive.push([node.id, 4])
-		for(let i = 0; i < node.children.length; i++)
-			remove(node.children[i])
+
+		let s = undefined
+		let ele = abactive.find(id => id[0] == node.id);
+		if (ele != undefined) {
+			switch(ele[1]) {
+				case 0: s = 3; break;
+				case 1: s = 4; break;
+				case 2: s = 5; break;
+				case 6: s = 6; break;
+				default: s = null; break;
+			}
+		}
+		else {
+			s = 6;
+		}
+		//console.log(s)
+		abactive = abactive.filter(id => id[0] != node.id);
+		abactive.push([node.id, s]);
+		for(let i = 0; i < node.children.length; i++) {
+			remove(node.children[i]);
+		}
 	}
 	for(let i = 0; i < tree.children.length; i++) {
 		if(i == which)
 			continue
 		remove(tree.children[i])
 	}
-	abresults.push(abactive.slice(0))
-	return best
+	abresults.push(abactive.slice(0));
+	//console.log(abactive);
+	return best;
 }
 alphabeta(new Tree(new Board([0,0,-1,1,0,0,1,-1,1], -1), 5), -1, 4)
 
@@ -267,9 +283,10 @@ function alphabetaR(tree, alpha, beta) {
 	}
 
 	function remove(tree) {
-		abactiveR = abactiveR.filter(id => id[0] != tree.id)
-		for(let i = 0; i < tree.children.length; i++)
-			remove(tree.children[i])
+		abactiveR = abactiveR.filter(id => id[0] != tree.id);
+		for(let i = 0; i < tree.children.length; i++) {
+			remove(tree.children[i]);
+		}
 	}
 	for(let i = 0; i < tree.children.length; i++) {
 		if(i == which)

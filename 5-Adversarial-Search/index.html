@@ -17,8 +17,47 @@
 	<script src="nalphabeta.js"></script>
 	<script src="badtree.js"></script>
 	<script src="deepening.js"></script>
+	<script src="comparison.js"></script>
 	<script src="main.js"></script>
 	<style>
+		button {
+			background-color: hsl(0, 0%, 25%);
+			border: none;
+			color: white;
+			padding: 7px 14px;
+			border-radius: 5px;
+			width: 5em;
+			margin: 2px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 1em;
+		}
+		
+		.slider {
+			transform: translate(0px,8px);
+			-webkit-appearance: none;
+			width: 100%;
+			height: 2em;
+			background: #d3d3d3;
+			outline: none;
+			opacity: 1;
+		}
+		.slider::-webkit-slider-thumb {
+			-webkit-appearance: none;
+			appearance: none;
+			width: 1em;
+			height: 2em;
+			background: hsl(0, 0%, 30%);
+			cursor: pointer;
+		}
+		.slider::-moz-range-thumb {
+			width: 1em;
+			height: 2m;
+			background: hsl(0, 0%, 30%);
+			cursor: pointer;
+		}
+		
 		* {
 			padding: 0px;
 			margin: 0px;
@@ -216,7 +255,7 @@
 
 		<div class="figures" id="gameTreeCanvas"></div>
 		
-		<div class="text">In addition to this we’re going to use an evaluation function, a heuristic, to help us solve this problem. Our evaluation function will assign states that X wins a value of ∞, draw states a value of 0, and states that O wins a value of -∞. Our goal is to choose the state with the highest value.</div>
+		<div class="text">In addition to this we’re going to use an evaluation function, a heuristic, to help us solve this problem. Our evaluation function will assign states that X wins a value of 1, draw states a value of 0, and states that O wins a value of -1. Our goal is to choose the state with the highest value.</div>
 		
 		
 		<div class="grid">
@@ -244,14 +283,14 @@
 		<div id='bigtreeText' class="text">
 			When O tries to decide what move to make, O can also assume that X will pick the best option for themselves. But what is the best move for X? Now we're back to the same place we started, searching for the best move X can make, only deeper into the tree. We could stop any time, but our results will be more reliable the deeper we go. Here is the same tree, but we evaluate each node in order.
 		</div>
-	</div>
 	
-		<div class="figures" id="bigtreeCanvas">
-		</div>
-		
-		<div style="text-align: center;"><input style="width: 60%;" type="range" min="0" max="141" value="0" class="slider" id="bigtreeRange"></div>
+		<div class="figures" id="bigtreeCanvas"></div>
+		<div style="text-align: center;">
+			<button class="button" id="minimaxButton1">play</button>
+			<button class="button" id="minimaxButton2"><</button>
+			<button class="button" id="minimaxButton3">></button>
+			<input style="width: 60%;" type="range" min="0" max="141" value="0" class="slider" id="bigtreeRange"></div>
 
-	<div class="content-container">
 		<div id='transitionText' class="text">
 			This is the essence of the Minimax algorithm, which is the foundation of many powerful techniques. It is a very exhaustive algorithm, so it will try to evaluate every node in a tree if you allow it to. This can be a problem, as trees can have explosive growth. Depending on a game’s branching factor(possible plays in a turn) and how many layers(turns) deep into the tree you want to look, the problem can quickly become unmanageable.
 			<br><br>
@@ -289,23 +328,20 @@
 		</div>
 
 		<div class="text" id="alphabetaText">
-			This will give us identical results to Minimax, but will give us vastly better performance.
+			This will give us identical results to Minimax, but can give us vastly better performance.
 		</div>
-	</div>
-
-	<div class="figures" id="alphabetaCanvas"></div>
-	
-	<div style="text-align: center;"><input style="width: 60%;" type="range" min="0" max="141" value="0" class="slider" id="alphabetaRange"></div>
-	<div class="content-container">
+		<div id="abparaContainer" style="height: 100em;">
+			<div class="figures" id="alphabetaCanvas"></div>
+		</div>
+		<div style="text-align: center; display: none;">
+			<input style="width: 60%;" type="range" min="0" max="141" value="0" class="slider" id="alphabetaRange"></div>
 		<div class="text">
 			One thing to keep in mind is that alpha beta cannot guarantee that we’ll get better performance. The order in which things are evaluated makes a huge difference. We're lucky because the most valueable move is found first, but it's perfectly plausible that we'll evaluate moves in increasing value, meaning that we could see little to no performance increase.
 		</div>
-	</div>
-	
-	<div class="figures" id="badtreeCanvas"></div>
-	<div style="text-align: center;"><input style="width: 60%;" type="range" min="0" max="141" value="0" class="slider" id="badtreeRange"></div>
 
-	<div class="content-container">
+		<div class="figures" id="badtreeCanvas"></div>
+		<div style="text-align: center;"><input style="width: 60%;" type="range" min="0" max="141" value="0" class="slider" id="badtreeRange"></div>
+
 		<div class="text">
 			Luckily there are a few things that we use to help us avoid this problems. One solution is to pick a random move each turn. Doing that can help us avoid falling into obvious patterns, which may have helped us in the above example. Heuristics can also help us. For example, in chess, moves that lead to captures will often be a good indicator of which move to pick. Finally, we can also employ iterative deepening, choosing to expand the path leading to the most valuable state first, as previous states are a good indicator of future states. This encours a slight overhead, but it’s often worth it in larger trees. Here is an example of it in action:
 		</div>
@@ -313,6 +349,17 @@
 		<div class="figures" id="deepeningCanvas"></div>
 		<div style="text-align: center;"><input style="width: 100%;" type="range" min="0" max="141" value="0" class="slider" id="deepeningRange"></div>
 
+		<div class="text">
+			Here is a comparison of techniques used, and how many nodes they end up visiting.
+		</div>
+		
+		<canvas id="comparisonCanvas"></canvas>
+		<div style="text-align:center; display:none;">
+			<button type="button" class="button" id="playButton">Restart</button>
+		</div>
+		<div class="text">
+			There is almost no reason not to use alpha beta pruning over minimax, but your choice of branch ordering can have a massive effect on the outcome. Which one is best depends on your specific game.
+		</div>
 	</div>
 
 	

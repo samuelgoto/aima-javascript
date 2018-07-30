@@ -46,33 +46,84 @@ function bigtree() {
 					s.pbranch.setAttribute('opacity', 1)
 			switch(state[i][1]) {
 			case null:
-				s.graphic.message.innerHTML = (s.board.turn == -1 ? "X Turn" : "O Turn")
-				s.graphic.message.setAttribute('class', 'undecided_status board_status_active')
-				break
+				s.graphic.message.innerHTML = (s.board.turn == -1 ? "X Turn" : "O Turn");
+				s.graphic.message.setAttribute('class', 'undecided_status board_status_active');
+				break;
 			case 0:
-				s.graphic.message.innerHTML = "X Won"
-				s.graphic.message.setAttribute('class', 'cross_status board_status_active')
-				break
+				s.graphic.message.innerHTML = "X Won";
+				s.graphic.message.setAttribute('class', 'cross_status board_status_active');
+				break;
 			case 1:
-				s.graphic.message.innerHTML = "Draw"
-				s.graphic.message.setAttribute('class', 'draw_status board_status_active')
-				break
+				s.graphic.message.innerHTML = "Draw";
+				s.graphic.message.setAttribute('class', 'draw_status board_status_active');
+				break;
 			case 2:
-				s.graphic.message.innerHTML = "O Won"
-				s.graphic.message.setAttribute('class', 'circle_status board_status_active')
-				break
+				s.graphic.message.innerHTML = "O Won";
+				s.graphic.message.setAttribute('class', 'circle_status board_status_active');
+				break;
+			case 3:
+				s.graphic.message.innerHTML = "X Won";
+				s.graphic.message.setAttribute('class', 'cross_status board_status_active');
+				s.graphic.group.setAttribute('opacity', '0.2');
+				s.pbranch.setAttribute('opacity', '0.2');
+				break;
 			case 4:
-				s.graphic.group.setAttribute('opacity', '0.0')
-				s.pbranch.setAttribute('opacity', '0.0')
-				break
+				s.graphic.message.innerHTML = "Draw";
+				s.graphic.message.setAttribute('class', 'draw_status board_status_active');
+				s.graphic.group.setAttribute('opacity', '0.2');
+				s.pbranch.setAttribute('opacity', '0.2');
+				break;
+			case 5:
+				s.graphic.message.innerHTML = "O Won";
+				s.graphic.message.setAttribute('class', 'circle_status board_status_active');
+				s.graphic.group.setAttribute('opacity', '0.2');
+				s.pbranch.setAttribute('opacity', '0.2');
+				break;
 			}
 			
 		}
 	}
 
-	let range = document.getElementById("bigtreeRange")
-	range.max = states.length-1
-	range.addEventListener("input", ()=> { apply_state(states[parseInt(range.value)])}, false)
+	let range = document.getElementById("bigtreeRange");
+	range.max = states.length-1;
+	range.addEventListener("input", ()=> { apply_state(states[parseInt(range.value)])}, false);
 
-	apply_state(states[0])
+	let backward = document.getElementById("minimaxButton2");
+	backward.onclick = ()=> {
+		if (range.value > 0) {
+			range.value = parseInt(range.value) - 1;
+			apply_state(states[range.value]);
+		}
+	};
+	let forward = document.getElementById("minimaxButton3");
+	forward.onclick = ()=> {
+		if (range.value < states.length-1) {
+			range.value = parseInt(range.value) +  1;
+			apply_state(states[range.value]);
+		}
+	};
+
+	let on = false;
+	let interval = undefined;
+	let toggle = document.getElementById("minimaxButton1");
+	toggle.onclick = ()=> {
+		if (on == true) {
+			toggle.innerHTML = "play";
+			on = false;
+			clearInterval(interval);
+		}
+		else {
+			toggle.innerHTML = "pause";
+			on = true;
+			interval = setInterval(()=>{
+				if (range.value < states.length-1) {
+					range.value = parseInt(range.value) +  1;
+					apply_state(states[range.value]);
+				} else {
+					range.value = 0;
+				}
+			}, 500);
+		}
+	};
+	apply_state(states[0]);
 }
