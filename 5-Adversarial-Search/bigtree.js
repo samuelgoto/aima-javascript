@@ -7,6 +7,15 @@ function bigtree() {
 	let tree = new Tree(new Board([0,0,-1,1,0,0,1,-1,1], -1), 5)
 	equip_graphics(tree, 0, scale, 12, 5, canvas)
 
+	let textele = document.createElementNS('http://www.w3.org/2000/svg','text');
+	{
+		canvas.appendChild(textele);
+		textele.appendChild(document.createTextNode("Minimax"));
+		textele.setAttribute('x', '400');
+		textele.setAttribute('y', '10');
+		textele.setAttribute('id', 'htext');
+	}
+
 	function setup(tree, depth) {
 		let color = 'hsl(0,0%,50%)'
 		for (let i = 0; i < 9; i++) {
@@ -36,7 +45,6 @@ function bigtree() {
 			tree.branches[i].setAttribute('opacity', opacity)
 		}
 	}
-
 	function apply_state(state) {
 		reset(tree, 100, 0.2)
 		for (let i = 0; i < state.length; i++) {
@@ -84,46 +92,28 @@ function bigtree() {
 		}
 	}
 
-	let range = document.getElementById("bigtreeRange");
-	range.max = states.length-1;
-	range.addEventListener("input", ()=> { apply_state(states[parseInt(range.value)])}, false);
-
-	let backward = document.getElementById("minimaxButton2");
-	backward.onclick = ()=> {
-		if (range.value > 0) {
-			range.value = parseInt(range.value) - 1;
-			apply_state(states[range.value]);
+	let container = document.getElementById("bigtreeContainer");
+	let last_state = 0;
+	document.addEventListener('parallax1event',  ()=> {
+		if (window.scrollY > container.offsetTop - (window.innerHeight - div.clientHeight)/2 && 
+			window.scrollY < container.offsetTop + container.clientHeight - window.innerHeight + (window.innerHeight - div.clientHeight)/2) {
+			div.setAttribute('style', 'position: fixed; left: 0%; top: '+ (window.innerHeight - div.clientHeight)/2 +'px; width: 100%;');
+			let s = Math.floor((window.scrollY-container.offsetTop + (window.innerHeight - div.clientHeight)/2)/Math.floor(container.clientHeight/states.length));
+			if (s != last_state) {
+				apply_state(states[s]);
+				last_state = s;
+			}
+		} else if (window.scrollY > container.offsetTop -  (window.innerHeight - div.clientHeight)/2) {
+			div.setAttribute('style', 'transform: translate(0px,'+ (container.clientHeight-div.clientHeight) +'px);');
+			if (s != last_state) {
+				apply_state(states[states.length-1]);
+				last_state = s;
+			}
+		} else {
+			if (s != last_state) {
+				div.setAttribute('style', '');
+				apply_state(states[0]);
+			}
 		}
-	};
-	let forward = document.getElementById("minimaxButton3");
-	forward.onclick = ()=> {
-		if (range.value < states.length-1) {
-			range.value = parseInt(range.value) +  1;
-			apply_state(states[range.value]);
-		}
-	};
-
-	let on = false;
-	let interval = undefined;
-	let toggle = document.getElementById("minimaxButton1");
-	toggle.onclick = ()=> {
-		if (on == true) {
-			toggle.innerHTML = "play";
-			on = false;
-			clearInterval(interval);
-		}
-		else {
-			toggle.innerHTML = "pause";
-			on = true;
-			interval = setInterval(()=>{
-				if (range.value < states.length-1) {
-					range.value = parseInt(range.value) +  1;
-					apply_state(states[range.value]);
-				} else {
-					range.value = 0;
-				}
-			}, 500);
-		}
-	};
-	apply_state(states[0]);
+	}, false);
 }

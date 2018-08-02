@@ -1,5 +1,4 @@
 function alphabeta() {
-	let cur = abstates;
 	let scale = 600;
 	let div = document.getElementById("alphabetaCanvas");
     let canvas = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
@@ -8,6 +7,16 @@ function alphabeta() {
 	let tree = new Tree(new Board([0,0,-1,1,0,0,1,-1,1], -1), 5);
 	equip_graphics(tree, 0, scale, 12, 5, canvas);
 
+	let textele = document.createElementNS('http://www.w3.org/2000/svg','text')
+	let textnode = document.createTextNode("Alpha-Beta Pruning")
+	textele.setAttribute('x', '400')
+	textele.setAttribute('y', '10')
+	textele.setAttribute('alignment-baseline', 'right')
+	textele.setAttribute('text-anchor', 'right')
+	textele.setAttribute('id', 'htext')
+	textele.appendChild(textnode)
+	canvas.appendChild(textele)
+		
 	function setup(tree, depth) {
 		tree.graphic.group.setAttribute('opacity', '0.2');
 		tree.graphic.message.setAttribute('class', 'board_status');
@@ -115,46 +124,28 @@ function alphabeta() {
 			
 		}
 	}
-	let range = document.getElementById("alphabetaRange");
-	
-	range.addEventListener("input", ()=> { apply_state(cur[parseInt(range.value)])}, false);
-	range.max = abstates.length-1;
-
-	apply_state(abstates[0]);
-
-	
 	let container = document.getElementById("abparaContainer");
 	let last_state = 0;
-	function calc_pos() {
-		if (window.scrollY > container.offsetTop - window.innerHeight/4 && 
-			window.scrollY < container.offsetTop + container.clientHeight - window.innerHeight + div.clientHeight) {
-			div.setAttribute('style', 'position: fixed; left: 20%; top: '+ window.innerHeight/4 +'px; width: 60%;');
-			let s = Math.floor((window.scrollY-container.offsetTop+window.innerHeight/2)/Math.floor(container.clientHeight/abstates.length));
+	document.addEventListener('parallax1event',  ()=> {
+		if (window.scrollY > container.offsetTop - (window.innerHeight - div.clientHeight)/2 && 
+			window.scrollY < container.offsetTop + container.clientHeight - window.innerHeight + (window.innerHeight - div.clientHeight)/2) {
+			div.setAttribute('style', 'position: fixed; left: 0%; top: '+ (window.innerHeight - div.clientHeight)/2 +'px; width: 100%;');
+			let s = Math.floor((window.scrollY-container.offsetTop + (window.innerHeight - div.clientHeight)/2)/Math.floor(container.clientHeight/abstates.length));
 			if (s != last_state) {
 				apply_state(abstates[s]);
 				last_state = s;
 			}
-		} else if (window.scrollY > container.offsetTop - window.innerHeight/4) {
+		} else if (window.scrollY > container.offsetTop -  (window.innerHeight - div.clientHeight)/2) {
 			div.setAttribute('style', 'transform: translate(0px,'+ (container.clientHeight-div.clientHeight) +'px);');
 			if (s != last_state) {
 				apply_state(abstates[abstates.length-1]);
 				last_state = s;
 			}
 		} else {
-			div.setAttribute('style', '');
+			if (s != last_state) {
+				div.setAttribute('style', '');
+				apply_state(abstates[0]);
+			}
 		}
-	}
-	/*
-	function recalc_pos() {
-		div.setAttribute('style', 'position: absolute; width: 35%; left: ' + (text.offsetLeft + text.clientWidth + text.clientWidth/10) +'px; top: ' + text.offsetTop +'px;');
-		display(1);
-		active = false;
-		last_state = undefined;
-		bot = true;
-		calc_pos();
-	}
-	*/
-	document.addEventListener('parallax1event',  calc_pos, false);
-	//window.addEventListener('resize', recalc_pos, false);
-	//recalc_pos();
+	}, false);
 }
