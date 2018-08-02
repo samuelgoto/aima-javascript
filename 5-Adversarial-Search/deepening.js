@@ -5,18 +5,17 @@ function deepening() {
     canvas.setAttribute('viewBox', '0 0 ' + scale + ' ' + scale*0.30 + ' ');
 	div.appendChild(canvas);
 	let textele = document.createElementNS('http://www.w3.org/2000/svg','text');
-	let textnode = document.createTextNode("Iterative Deepening");
-	textele.setAttribute('x', '400');
-	textele.setAttribute('y', '10');
-	textele.setAttribute('alignment-baseline', 'right');
-	textele.setAttribute('text-anchor', 'right');
-	textele.setAttribute('id', 'htext');
-	textele.appendChild(textnode);
-	canvas.appendChild(textele);
+	{
+		canvas.appendChild(textele);
+		textele.appendChild(document.createTextNode("Iterative Deepening"));
+		textele.setAttribute('x', '400');
+		textele.setAttribute('y', '10');
+		textele.setAttribute('id', 'htext');
+	}
 	let tree = new Tree(new Board([0,0,-1,1,0,0,1,-1,1], -1), 5);
 	equip_graphics(tree, 0, scale, 12, 5, canvas);
 
-	let d = draw_line(0, 100, scale, 100, canvas, 2);
+	let d = draw_line(0, 60, scale, 60, canvas, 10);
 
 	function setup(tree, depth) {
 		let color = 'hsl(0,0%,50%)';
@@ -51,11 +50,20 @@ function deepening() {
 	}
 	function apply_state(state, s) {
 		reset(tree, 100, 0.2);
-		console.log(s)
-		if (s < 6) {
-			draw_line(0, 100, scale, 100, canvas, 2);
-			console.log('a')
+		if (s < 7) {
+			d.setAttribute('y1', 65);
+			d.setAttribute('y2', 65);
+		} else if (s < 25) {
+			d.setAttribute('y1', 100);
+			d.setAttribute('y2', 100);
+		} else if (s < 49) {
+			d.setAttribute('y1', 135);
+			d.setAttribute('y2', 135);
+		} else {
+			d.setAttribute('y1', 170);
+			d.setAttribute('y2', 170);
 		}
+		
 		for (let i = 0; i < state.length; i++) {
 			let s = tree.search(state[i][0]);
 			s.graphic.group.setAttribute('opacity', 1);
@@ -116,7 +124,7 @@ function deepening() {
 		} else {
 			if (s != last_state) {
 				div.setAttribute('style', '');
-				apply_state(iabstates[0], iabstates.length-1);
+				apply_state(iabstates[0], 0);
 			}
 		}
 	}, false);
