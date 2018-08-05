@@ -135,7 +135,7 @@ function gameTree() {
 					return
 				}
 					
-				let move = minimax(tree)[1]
+				let move = tree.best();
 
 				let location = 0
 				count = -1;

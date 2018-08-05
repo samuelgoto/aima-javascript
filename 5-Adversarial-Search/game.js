@@ -34,7 +34,6 @@ function game(){
 
 	async function reset() {
 		return new Promise(async (resolve) => {
-			console.log(tree.board.gameState)
 			textnode.nodeValue = (tree.board.gameState == 2 ? "X Wins" : "Draw")
 			await sleep(2000)
 			tree = new Tree(new Board([0,0,0,0,0,0,0,0,0], 1), 100)
@@ -88,12 +87,14 @@ function game(){
 					count++;
 			}
 			circle.setAttribute('class','gameapp')
-			tree = tree.children[count]
+			tree = tree.children[count];
+			//console.log(tree.board.gameState)
 			if(tree.board.gameState != 0) {
 				await reset()
 				return
 			}
-			let move = minimax(tree)[1]
+			let move = tree.best();
+
 			let location = 0
 			count = -1;
 			for(let j = 0; j < 9; j++) {
@@ -106,7 +107,8 @@ function game(){
 			}
 			await sleep(1000)
 			cross_marks[location].setAttribute('class','gameapp')
-			tree = tree.children[move]
+			tree = tree.children[move];
+			//console.log(tree.board.gameState);
 			if(tree.board.gameState != 0) {
 				await reset()
 			}
