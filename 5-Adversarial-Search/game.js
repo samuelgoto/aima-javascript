@@ -9,11 +9,11 @@ function game(){
 	let width = 2
 	let div = document.getElementById("gameCanvas")
 	let canvas = document.createElementNS("http://www.w3.org/2000/svg", 'svg')
-	canvas.setAttribute('style', 'width: 60%; margin: auto;')
+	canvas.setAttribute('style', 'width: 40%; float: right; margin: 0% 5% 5% 5%;')
     div.appendChild(canvas)
     canvas.setAttribute('viewBox', '0 0 ' + scale + ' ' + scale + ' ')
 	let textele = document.createElementNS('http://www.w3.org/2000/svg','text')
-    let textnode = document.createTextNode("")
+    let textnode = document.createTextNode("Make a move!")
     textele.setAttribute('x', '50%')
     textele.setAttribute('y', '50%')
     textele.setAttribute('alignment-baseline', 'middle')
@@ -78,13 +78,16 @@ function game(){
 		cross.setAttribute('stroke-width', width)
 		cross_marks.push(cross)
 		button.onclick = async ()=> {
-			if (tree.board.tiles[i] != 0 || clickable == false)
-				return
-			clickable = false
+			if (tree.board.tiles[i] != 0 || clickable == false) {
+				return;
+			}
+			clickable = false;
+			textnode.nodeValue = "";
 			let count = 0;
 			for(let j = 0; j < i; j++) {
-				if (tree.board.tiles[j] == 0)
+				if (tree.board.tiles[j] == 0) {
 					count++;
+				}
 			}
 			circle.setAttribute('class','gameapp')
 			tree = tree.children[count];

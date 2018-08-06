@@ -5,7 +5,7 @@ function recurive() {
     canvas.setAttribute('viewBox', '0 0 ' + scale + ' ' + scale/2 + ' ')
     div.appendChild(canvas)
 	let tree = new Tree(new Board([1,-1,0,1,-1,-1,0,1,0], -1), 2)
-    equip_graphics(tree, 0, scale, 12, 3, canvas)
+    equip_graphics(tree, 0+10, scale-10, 12, 3, canvas)
     function setup(tree) {
 		let color = 'hsl(0,0%,50%)'
 		for (let i = 0; i < 9; i++) {

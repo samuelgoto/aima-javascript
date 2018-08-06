@@ -10,27 +10,29 @@ function draw_line(x1, y1, x2, y2, canvas, scale) {
 	return line
 }
 function draw_circle(x, y, scale, canvas, scale) {
-	let circle = document.createElementNS("http://www.w3.org/2000/svg", 'path')
-	canvas.appendChild(circle)
-	let r = scale/10
-	let place = "M " + (x) + ", " + (y) + " m " + (-1*r) + ", 0 a "+r+", "+r+" 0 1, 0 "+ ( 2 * r) + ", 0 a "+r+", "+r+" 0 1,0 " + ( -2 * r) + ",0"
-	circle.setAttribute('d', place)
-	circle.setAttribute('fill', 'none')
-	circle.setAttribute('stroke', 'hsl(120, 50%, 50%)')
-	circle.setAttribute('style', 'stroke-dasharray: 1000; stroke-dashoffset: 1000;  pointer-events: none;')
-	circle.setAttribute('stroke-width', (scale == undefined ? 1 : scale/20))
+	let circle = document.createElementNS("http://www.w3.org/2000/svg", 'path');
+	canvas.appendChild(circle);
+	let r = scale/10;
+	let place = "M " + (x) + ", " + (y) + " m " + (-1*r) + ", 0 a "+r+", "+r+" 0 1, 0 "+ ( 2 * r) + ", 0 a "+r+", "+r+" 0 1,0 " + ( -2 * r) + ",0";
+	circle.setAttribute('d', place);
+	circle.setAttribute('fill', 'none');
+	//circle.setAttribute('stroke', 'hsl(120, 50%, 50%)')
+	circle.setAttribute('stroke', 'hsl(0, 0%, 30%)');
+	circle.setAttribute('style', 'stroke-dasharray: 1000; stroke-dashoffset: 1000;  pointer-events: none;');
+	circle.setAttribute('stroke-width', (scale == undefined ? 1 : scale/20));
 
-	return circle
+	return circle;
 }
 function draw_cross(x, y, scale, canvas, scale) {
-	let cross = document.createElementNS("http://www.w3.org/2000/svg", 'path')
-	canvas.appendChild(cross)
-	let offset = scale/10
-	let place = "M " + (x - offset) + ", " + (y - offset) +" L " + (x + offset) + ", " + (y + offset)+" M " + (x + offset)+ " " + (y - offset) +" L " + (x - offset) + " " + (y + offset)
-	cross.setAttribute('d', place)
-	cross.setAttribute('stroke', 'hsl(0, 50%, 50%)')
-	cross.setAttribute('style', 'stroke-dasharray: 1000; stroke-dashoffset: 1000;  pointer-events: none;')
-	cross.setAttribute('stroke-width', scale/20)
+	let cross = document.createElementNS("http://www.w3.org/2000/svg", 'path');
+	canvas.appendChild(cross);
+	let offset = scale/10;
+	let place = "M " + (x - offset) + ", " + (y - offset) +" L " + (x + offset) + ", " + (y + offset)+" M " + (x + offset)+ " " + (y - offset) +" L " + (x - offset) + " " + (y + offset);
+	cross.setAttribute('d', place);
+	cross.setAttribute('stroke', 'hsl(0, 50%, 50%)');
+	cross.setAttribute('stroke', 'hsl(0, 0%, 30%)');
+	cross.setAttribute('style', 'stroke-dasharray: 1000; stroke-dashoffset: 1000;  pointer-events: none;');
+	cross.setAttribute('stroke-width', scale/20);
 	return cross
 }
 function draw_text(x, y, text, cls, canvas) {
@@ -96,12 +98,16 @@ class BoardGraphic {
 												(Math.floor(i/3)*this.scale/3 - this.scale/3 + y),
 												this.scale,
 												this.group,
-												this.scale))
+												this.scale));
 			this.cross_marks.push(draw_cross((i%3*this.scale/3 - this.scale/3 + x),
 												(Math.floor(i/3)*this.scale/3 - this.scale/3 + y),
 												this.scale,
 												this.group,
-												this.scale))
+												this.scale));
+			if (board.dif == i) {
+				this.cross_marks[this.cross_marks.length-1].setAttribute('stroke', 'hsl(230, 50%, 70%)');
+				this.circle_marks[this.circle_marks.length-1].setAttribute('stroke', 'hsl(230, 50%, 70%)');
+			}					
 			switch(board.tiles[i]) {
 			case -1: this.cross_marks[i].setAttribute('class', 'gameapp'); break
 			case 0: break

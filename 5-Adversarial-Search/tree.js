@@ -85,6 +85,14 @@ class Tree {
 		this.children = new Array();
 		this.id = id[0]++;
 		let i = 0;
+		if (parent != undefined) {
+			for(let i = 0; i < this.board.tiles.length; i++) {
+				if (this.board.tiles[i] != parent.board.tiles[i]) {
+					this.board.dif = i;
+					break;
+				}
+			}
+		}
 		if (depth > 0) {
 			while(this.board.next(i)) {
 				this.children.push(new Tree(this.board.next(i++), depth-1, id, this));

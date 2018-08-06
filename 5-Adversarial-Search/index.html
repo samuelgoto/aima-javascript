@@ -27,6 +27,7 @@
 		body {
 			font-family: arial;
 			background-color: hsl(60,5%,95%);
+			min-width: 800;
 		}
 		#banner-container {
 			width: 100%;
@@ -40,13 +41,20 @@
 			
 		}
 		#wintext {
-			font-size: 1.3em;	
-			fill:hsl(0,0%,100%);
+			font-size: 0.83em;	
+			fill:hsl(0,0%,90%);
 			stroke: hsl(0, 0%, 0%);
-			stroke-width: 1.2;
+			stroke-width: 0.05em;
 			pointer-events: none;
 			font-weight: 900;
+			animation: pulse 3s infinite;
 		}
+		@keyframes pulse {
+    		0% {font-size: 0.83em;}
+    		50% {font-size: 0.79em;}
+			100% {font-size: 0.83em;}
+		}
+
 		#wintextgt {
 			font-size: 0.6em;	
 			fill:hsl(0,0%,100%);
@@ -204,15 +212,12 @@
 		<svg id="banner" viewBox="0 0 300 90"></svg>
 	</div>
 	<div class="content-container">
-		<div class="grid">
-			<div id='gameText' class="text">
-				Tic-tac-toe is a fairly simple game. Each player takes a turn marking a square, and the first player to claim 3 in a line wins. A computer is very good at this game, and won’t ever get anything worse than a draw. But how does it to it?
-			</div>
-			<div class="figures" id="gameCanvas"></div>
-		</div>
-		
-		<div id='gameTreeText' class="text">
-			We need a way to represent this problem before we can try to have a computer solve it. Trees can work well because we can enumerate every move and its resulting state. Make a move to see how we traverse the tree.
+		<div class="figures" id="gameCanvas"></div>
+		<div class="text">
+			Tic-tac-toe is a fairly simple game. Each player takes a turn marking a square, and the first player to claim 3 in a line wins. A computer is very good at this game, and won’t ever get anything worse than a draw. Give it a try!
+			<br>
+			<br>
+			But how does it do it? We need a way to represent this problem before we can try to have a computer solve it. Trees can work well because we can enumerate every move and its resulting state. Make a move to see how we traverse the tree.
 		</div>
 
 		<div class="figures" id="gameTreeCanvas"></div>
@@ -273,7 +278,7 @@
 					The first option has a value of 1!
 				</div>
 				<div id="parallax2_text3">
-					Now we return to our parent. It's the root player's choice so we compare it with α and find that value we found is better, so we update it.
+					Now we return to our parent. It's the root player's choice so we compare it with α and find that the value we found is better, so we update it.
 				</div>
 				<div id="parallax2_text4">
 					Now we start looking at the next child. We pass the current node's α and β to it.
@@ -317,22 +322,19 @@
 	</div>
 	<div class="content-container">
 
-<!--
-
 	<div class="text">
 		Here is a comparison of techniques used, and how many nodes they end up visiting.
 	</div>
 	
 	<canvas id="comparisonCanvas"></canvas>
-	<div style="text-align:center; display:none;">
-		<button type="button" class="button" id="playButton">Restart</button>
+	<div style="text-align:center;">
+		<button type="button" class="button" id="playButton">Start Search</button>
 	</div>
 	<div class="text">
 		There is almost no reason not to use alpha beta pruning over minimax, but your choice of branch ordering can have a massive effect on the outcome. Which one is best depends on your specific game.
 	</div>
 
 
--->
 	</div>
 
 	

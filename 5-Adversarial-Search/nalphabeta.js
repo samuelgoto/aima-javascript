@@ -33,6 +33,7 @@ function alphabeta() {
 		
 		if (tree.pbranch != undefined) {
 			tree.pbranch.setAttribute('opacity', '0.2');
+			tree.pbranch.setAttribute('stroke', color);
 		}
 	
 		if (depth == 0) {

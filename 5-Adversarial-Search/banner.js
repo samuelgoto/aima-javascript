@@ -156,7 +156,7 @@ function banner() {
         if(state) {
             if (window.innerWidth /  window.innerHeight < brk) {
                 state = false
-                canvas.setAttribute("viewBox", "100 15 100 75")
+                canvas.setAttribute("viewBox", "80 15 140 75")
                 canvas.removeChild(document.getElementById("htext"));
                 makeText()
             }

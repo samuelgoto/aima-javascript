@@ -1,33 +1,35 @@
 function gameTree() {
-	let tree = new Tree(new Board([0,0,0,0,0,0,0,0,0], 1), 100)
-	let div = document.getElementById("gameTreeCanvas")
-	let canvas = document.createElementNS("http://www.w3.org/2000/svg", 'svg')
-	div.appendChild(canvas)
-	let curBranches = undefined
-	let curChildren = undefined
-	let offx = 0
-	let offy = 0
-	let group = document.createElementNS("http://www.w3.org/2000/svg", 'g')
-	canvas.appendChild(group)
+	let tree = new Tree(new Board([0,0,0,0,0,0,0,0,0], 1), 100);
+	let div = document.getElementById("gameTreeCanvas");
+	let canvas = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
+	div.appendChild(canvas);
+	let curBranches = undefined;
+	let curChildren = undefined;
+	let offx = 0;
+	let offy = 0;
+	let group = document.createElementNS("http://www.w3.org/2000/svg", 'g');
+	canvas.appendChild(group);
+	canvas.setAttribute('style', 'cursor:move;');
 	function make_cur() {
-		curChildren = []
-		curBranches = []
+		curChildren = [];
+		curBranches = [];
+		//console.log(offx, offy)
 		for(let i = 0; i < tree.children.length; i++) {
-			let inc_x = 120/(tree.children.length-1)
-			let base_x = 70-offx
+			let inc_x = 120/ ( tree.children.length == 1 ? 1 : (tree.children.length-1));
+			let base_x = (tree.children.length == 1 ? 130 : 70)-offx;
 			curChildren.push(new BoardGraphic(
 				tree.children[i].board,
 				base_x + i * inc_x, 50-offy,
-				group, 7))
+				group, 7));
 			curBranches.push(draw_line(
 				130-offx, 30-offy+7/2,
 				base_x + i * inc_x, 50-offy-7/2,
-				group, 7))
-			curChildren[i].group.setAttribute('opacity', 0.2)
-			curBranches[i].setAttribute('opacity', 0.2)
+				group, 7));
+			curChildren[i].group.setAttribute('opacity', 0.2);
+			curBranches[i].setAttribute('opacity', 0.2);
 		}
-	}
-	
+		//console.log(tree, curBranches, curChildren)
+	}	
 	{
 		let clickable = true
 		let cross_marks = []
@@ -45,15 +47,17 @@ function gameTree() {
 		textele.setAttribute('id', 'wintextgt')
 	
 		function draw_line_alt(x1, y1, x2, y2) {
-			let l1 = document.createElementNS("http://www.w3.org/2000/svg", 'line')
-			canvas.appendChild(l1)
-			l1.setAttribute('x1', x1)
-			l1.setAttribute('y1', y1)
-			l1.setAttribute('x2', x2)
-			l1.setAttribute('y2', y2)
-			l1.setAttribute('stroke', bc1)
-			l1.setAttribute('stroke-width', width)
-			l1.setAttribute('stroke-linecap' , 'round')
+			let l1 = document.createElementNS("http://www.w3.org/2000/svg", 'line');
+			canvas.appendChild(l1);
+			l1.setAttribute('x1', x1);
+			l1.setAttribute('y1', y1);
+			l1.setAttribute('x2', x2);
+			l1.setAttribute('y2', y2);
+			l1.setAttribute('stroke', bc1);
+			l1.setAttribute('stroke-width', width);
+			l1.setAttribute('stroke-linecap' , 'round');
+			l1.setAttribute('style', 'cursor: default;');
+
 		}
 		async function reset() {
 			return new Promise(async (resolve) => {
@@ -175,26 +179,44 @@ function gameTree() {
 				clickable = true
 			}
 			button.onmouseover = ()=> {
-				if (clickable == false)
-					return
+				if (clickable == false) {
+					return;
+				}
+				if (tree.board.tiles[i] != 0) {
+					return;
+				}
 				let count = 0;
 				for(let j = 0; j < i; j++) {
-					if (tree.board.tiles[j] == 0)
+					if (tree.board.tiles[j] == 0) {
 						count++;
+					}
 				}
-				curBranches[count].setAttribute('opacity', 1)
-				curChildren[count].group.setAttribute('opacity', 1)
+				if (curBranches.length != 0) {
+					curBranches[count].setAttribute('opacity', 1);
+				}
+				if (curChildren.length != 0) {
+					curChildren[count].group.setAttribute('opacity', 1)
+				}
 			}
 			button.onmouseout = ()=> {
-				if (clickable == false)
-					return
+				if (clickable == false) {
+					return;
+				}
+				if (tree.board.tiles[i] != 0) {
+					return;
+				}
 				let count = 0;
 				for(let j = 0; j < i; j++) {
-					if (tree.board.tiles[j] == 0)
+					if (tree.board.tiles[j] == 0) {
 						count++;
+					}
 				}
-				curBranches[count].setAttribute('opacity', 0.2)
-				curChildren[count].group.setAttribute('opacity', 0.2)
+				if (curBranches.length != 0) {
+					curBranches[count].setAttribute('opacity', 0.2)
+				}
+				if (curChildren.length != 0) {
+					curChildren[count].group.setAttribute('opacity', 0.2)
+				}
 			}
 		}
 		draw_line_alt(scale/3, width/2, scale/3, scale-width/2)
@@ -203,7 +225,24 @@ function gameTree() {
 		draw_line_alt(width/2, scale/3*2, scale-width/2, scale/3*2)
 		textele.appendChild(textnode)
 		canvas.appendChild(textele)
+		//dragging
+		{
+			function xdlmao(e) {
+				if (clickable == true &&
+					e.buttons == 1 &&
+					e.pageX > div.offsetLeft &&
+					e.pageX < div.offsetLeft + div.clientWidth &&
+					e.pageY > div.offsetTop &
+					e.pageY < div.offsetTop + div.clientHeight) {
+						offy += parseInt((e.movementY/4));
+						offx += parseInt((e.movementX/4)); 
+						group.setAttribute('transform', 'translate(' + offx + ', ' + offy + ')');
+				}
+			}
+			document.addEventListener("mousemove", xdlmao);
+		}
 	}
+
 	let bg = new BoardGraphic(tree.board, 130-offx, 30-offy, group, 7)
 	make_cur()
 }
