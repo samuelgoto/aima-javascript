@@ -16,9 +16,9 @@ class GraphNode {
             this.y+y,
             3.5,
             0,2*Math.PI);
-        ctx.fillStyle = 'hsl(0,0%,70%)';
+        ctx.fillStyle = 'hsl(0,0%,75%)';
         ctx.fill();
-        ctx.strokeStyle = 'hsl(0,0%,70%)';
+        ctx.strokeStyle = 'hsl(0,0%,75%)';
         ctx.stroke();
 
         for(let i = 0; i < this.children.length; i++) {
@@ -33,7 +33,7 @@ class GraphNode {
         this.children.push(other);
     }
 
-    mark(ctx, x, y, color = 'hsl(0,50%,50%)') {
+    mark(ctx, x, y, color = 'hsl(0,50%,65%)') {
         ctx.strokeStyle = color;
         ctx.lineWidth = 0.1;
         ctx.beginPath();
@@ -53,11 +53,12 @@ class Graph {
         this.buckets = [];
         let xd = Math.floor(Math.sqrt(nodes));
         let win = [Math.floor(Math.random() * xd), Math.floor(Math.random() * xd)];
-        let res = scale/xd;
+        let res = (scale*0.97)/xd;
+        let off = (scale*0.03)/2;
         for(let i = 0; i < xd; i++) {
             let row = [];
             for(let j = 0; j < xd; j++) {
-                row.push(new GraphNode(i*res + 5 + Math.random()*(res-5), j*res + 5 + Math.random()*(res-5), xd, win, [i, j], (i == 0 ||  i == xd-1 || j == 0 || j == xd-1)));
+                row.push(new GraphNode(i*res + 5 + Math.random()*(res-5)+off, j*res + 5 + Math.random()*(res-5)+off, xd, win, [i, j], (i == 0 ||  i == xd-1 || j == 0 || j == xd-1)));
             }
             this.buckets.push(row);
         }
@@ -337,11 +338,11 @@ function comparison() {
             ab.next();
             abr.next();
             abi.next();
-            ctx.font = "3em Arial";
+            ctx.font = "3.1em Arial";
             ctx.textAlign = "left";
-            ctx.fillStyle = "hsl(0,0%,90%)";
-            ctx.strokeStyle = 'black';
-            ctx.lineWidth = 2;
+            ctx.fillStyle = "hsl(0,0%,20%)";
+            ctx.strokeStyle = "hsl(0,0%,20%)";
+            ctx.lineWidth = 1;
             ctx.fillText("Minimax", 20,500);
             ctx.strokeText("Minimax", 20,500);
             ctx.fillText("Iterative Deepening", 530,500);
