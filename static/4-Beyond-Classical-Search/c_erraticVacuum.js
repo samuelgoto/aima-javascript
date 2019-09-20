@@ -116,7 +116,7 @@ class VacuumWorldDiagram {
     this.robot = this.svg.append('g')
       .attr('class', 'cleaner')
       .append('svg:image')
-      .attr('xlink:href', '../third-party/vacuum-cleaner.svg')
+      .attr('xlink:href', '/static/third-party/vacuum-cleaner.svg')
       .attr('height', this.robotHeight)
       .attr('width', this.robotWidth)
       .attr('x', this.xScale(this.world.robotLocation))

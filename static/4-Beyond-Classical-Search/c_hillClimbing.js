@@ -102,7 +102,7 @@ class HillClimberDiagram {
     this.robot = this.svg.append('g')
       .attr('class', 'robot')
       .append('svg:image')
-      .attr('xlink:href', '../third-party/robot.png')
+      .attr('xlink:href', '/static/third-party/robot.png')
       .attr('height', this.botHeight)
       .attr('width', this.botWidth)
       .attr('x', this.xScale(robotLocation) - this.xOffset)
