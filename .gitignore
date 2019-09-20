@@ -6,3 +6,7 @@ jspm_packages
 jsconfig.json
 build/
 package-lock.json
+.bundle/
+Gemfile.lock
+_site/
+vendor/
