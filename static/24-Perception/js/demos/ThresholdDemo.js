@@ -117,7 +117,7 @@ export default class ThresholdDemo extends React.Component {
         return e('div', { className: 'demo-container' },
             e(ImageUploader, {
                 imageId: this.imageId,
-                defaultImage: '../images/test.png',
+                defaultImage: '/static/24-Perception/images/test.png',
                 processHandler: () => this.process(),
             }, null),
             e('br', null, null),

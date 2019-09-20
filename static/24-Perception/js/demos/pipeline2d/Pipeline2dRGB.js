@@ -69,7 +69,7 @@ class Pipeline2dRGB extends React.Component {
             e('div', { style: { display: 'flex', flexDirection: 'row' } },
                 e(ImageUploader, {
                     imageId: this.imageId,
-                    defaultImage: './images/test.png',
+                    defaultImage: '/static/24-Perception/images/test.png',
                     processHandler: () => this.process(),
                     changeHandler: () => this.changeInput('image'),
                 }, null),
@@ -93,7 +93,7 @@ class Pipeline2dRGB extends React.Component {
                                 onClick: (e) => {
                                     e.preventDefault();
                                     this.changeInput('image');
-                                    this.img.src = "../third-party/leds.jpg";
+                                    this.img.src = "/static/third-party/leds.jpg";
                                     this.process();
                                 }
                             }, 'RGB')
@@ -104,7 +104,7 @@ class Pipeline2dRGB extends React.Component {
                                 onClick: (e) => {
                                     e.preventDefault();
                                     this.changeInput('image');
-                                    this.img.src = "../third-party/piripiri.jpg";
+                                    this.img.src = "/static/third-party/piripiri.jpg";
                                     this.process();
                                 }
                             }, 'Red-Green')
@@ -115,7 +115,7 @@ class Pipeline2dRGB extends React.Component {
                                 onClick: (e) => {
                                     e.preventDefault();
                                     this.changeInput('image');
-                                    this.img.src = "./images/world.jpg";
+                                    this.img.src = "/static/24-Perception/images/world.jpg";
                                     this.process();
                                 }
                             }, 'Green-Blue')

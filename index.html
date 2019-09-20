@@ -11,13 +11,11 @@ layout: default
         <a href="{{post.url | prepend: site.baseurl}}">
         {{post.title}}
         </a>
-        {{post.title}}
-        </a>
       </h1>
       <div class="catalogue-line"></div>
       <div class="catalogue-body">
         <a href="{{post.url | prepend: site.baseurl}}">
-        {{post.excerpt | markdownify | strip_html | truncatewords: 25}}
+        {{post.snippet | strip_html | truncatewords: 25}}
         </a>
       </div>
     </div>
