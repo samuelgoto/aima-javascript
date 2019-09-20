@@ -1,34 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
+---
+title: Adversarial Search
+snippet: In which we examine the problems that arise when we try to plan ahead in a world where other agents are planning against us.
+layout: default
+---
+
 	<meta charset="UTF-8">
 	<title>Adversarial Search</title>
-	<script src="banner.js"></script>
-	<script src="tree.js"></script>
-	<script src="draw.js"></script> 
-	<script src="game.js"></script>
-	<script src="gameTree.js"></script>
-	<script src="parallax1.js"></script>
-	<script src="recursive.js"></script>
-	<script src="states.js"></script>
-	<script src="bigtree.js"></script>
-	<script src="transition.js"></script>
-	<script src="parallax2.js"></script>
-	<script src="nalphabeta.js"></script>
-	<script src="badtree.js"></script>
-	<script src="deepening.js"></script>
-	<script src="comparison.js"></script>
-	<script src="main.js"></script>
+	<script src="/static/5-Adversarial-Search/banner.js"></script>
+	<script src="/static/5-Adversarial-Search/tree.js"></script>
+	<script src="/static/5-Adversarial-Search/draw.js"></script> 
+	<script src="/static/5-Adversarial-Search/game.js"></script>
+	<script src="/static/5-Adversarial-Search/gameTree.js"></script>
+	<script src="/static/5-Adversarial-Search/parallax1.js"></script>
+	<script src="/static/5-Adversarial-Search/recursive.js"></script>
+	<script src="/static/5-Adversarial-Search/states.js"></script>
+	<script src="/static/5-Adversarial-Search/bigtree.js"></script>
+	<script src="/static/5-Adversarial-Search/transition.js"></script>
+	<script src="/static/5-Adversarial-Search/parallax2.js"></script>
+	<script src="/static/5-Adversarial-Search/nalphabeta.js"></script>
+	<script src="/static/5-Adversarial-Search/badtree.js"></script>
+	<script src="/static/5-Adversarial-Search/deepening.js"></script>
+	<script src="/static/5-Adversarial-Search/comparison.js"></script>
+	<script src="/static/5-Adversarial-Search/main.js"></script>
 	<style>
 		
 		* {
 			padding: 0px;
 			margin: 0px;
-		}
-		body {
-			font-family: arial;
-			background-color: hsl(60,5%,95%);
-			min-width: 800;
 		}
 		#banner-container {
 			width: 100%;
@@ -72,15 +70,6 @@
 			pointer-events: none;
 			text-shadow: 5px 5px (0, 0%, 100%);
 			font-weight: 900;
-		}
-		.content-container {
-			background-color: hsl(60,5%,95%);
-			width: 60%;
-			margin: auto;
-		}
-		.text {	
-			line-height: 5vh;
-			font-size: 120%;
 		}
 		
 		#footer {
@@ -207,7 +196,7 @@
 			font-size: 0.5em;
 		}
 	</style>
-</head>
+
 <body onload="main()">
 	<div id="banner-container">
 		<svg id="banner" viewBox="0 0 300 90"></svg>
@@ -339,6 +328,4 @@
 	</div>
 
 	
-	<div id="footer"></div>
 </body>
-</html>
