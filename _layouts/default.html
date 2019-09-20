@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="/static/index.css">    
+  </head>
+  <body>
+    <div class="header">
+      <div class="container">
+        <span class="title"><a href="{{ site.baseurl }}/">{{ site.title }}</a></span>
+        <span class="navigation">
+          <span><a href="{{ '/index.html' | prepend: site.baseurl }}">posts</a></span>
+          <span><a href="{{ '/drafts' | prepend: site.baseurl }}">drafts</a></span>
+        </span>
+      </div>
+    </div>
+
+    <main>
+      {{content}}
+    </main>
+
+    <footer>
+      <span>
+        &copy; <time datetime="{{ site.time }}">{{site.time | date: '%Y'}}</time> {{site.author.name}}.
+      </span>
+    </footer>
+  </body>
+</html>
+

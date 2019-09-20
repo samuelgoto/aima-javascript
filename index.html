@@ -1,78 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>Artificial Intelligence: A Modern Approach</title>
-  <link rel="stylesheet" href="/static/index.css">
-  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-</head>
+---
+layout: default
+---
 
-<body>
-
-  <div class="header">
-    <div class="container">
-      <span class="title">Artificial Intelligence: A Modern Approach</span>
-      <span class="navigation"></span>
-    </div>
-  </div>
-
-  <main>  
-
-    <div class="catalogue">
-      <div class="catalogue-item">
-        <p class="catalogue-time">Summer 2019</p>
-        <h1 class="catalogue-title">
-          <a href="/static/24-Perception/">
-            Edge Detection
-          </a>
-        </h1>
-        <div class="catalogue-line"></div>
-        <div class="catalogue-body">
-          <a href="/static/24-Perception/">
-            In which we connect the computer to the raw, unwashed world.
-          </a>
-        </div>
+{% assign posts_count = paginator.posts | size %}
+<div class="catalogue">
+  {% for post in paginator.posts %}
+    <div class="catalogue-item">
+      <p class="catalogue-time">{{ post.date | date: "%B %d, %Y" }}</p>
+      <h1 class="catalogue-title">
+        <a href="{{post.url | prepend: site.baseurl}}">
+        {{post.title}}
+        </a>
+        {{post.title}}
+        </a>
+      </h1>
+      <div class="catalogue-line"></div>
+      <div class="catalogue-body">
+        <a href="{{post.url | prepend: site.baseurl}}">
+        {{post.excerpt | markdownify | strip_html | truncatewords: 25}}
+        </a>
       </div>
     </div>
-
-    <div class="catalogue">
-      <div class="catalogue-item">
-        <p class="catalogue-time">Summer 2018</p>
-        <h1 class="catalogue-title">
-          <a href="/static/5-Adversarial-Search/">
-            Adversarial Search
-          </a>
-        </h1>
-        <div class="catalogue-line"></div>
-        <div class="catalogue-body">
-          <a href="/static/5-Adversarial-Search/">
-            In which we examine the problems that arise when we try to plan ahead in a world
-	    where other agents are planning against us.
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <div class="catalogue">
-      <div class="catalogue-item">
-        <p class="catalogue-time">Summer 2017</p>
-        <h1 class="catalogue-title">
-          <a href="/static/3-Solving-Problems-By-Searching/">
-            Solving Problems By Searching
-          </a>
-        </h1>
-        <div class="catalogue-line"></div>
-        <div class="catalogue-body">
-          <a href="/static/3-Solving-Problems-By-Searching/">
-            In which we see how an agent can find a sequence of actions that achieves its goals when no single action will do.
-          </a>
-        </div>
-      </div>
-    </div>
-
-  </main>
-
-  <footer class="container-fluid text-center">
-    Stuart Russell and Peter Norvig
-  </footer>
-</body>
-</html>
+  {% endfor %}
+</div>
