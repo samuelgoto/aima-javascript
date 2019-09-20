@@ -1,12 +1,4 @@
-@import url("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css");
-
-footer{
-    background-color: #555;
-    color: white;
-    padding: 15px;
-}
-
-h3{
+h3 {
     padding: 1em;
 }
 
@@ -21,9 +13,9 @@ h3{
     white-space: normal;
 }
 
-pre{
-	margin-top:20px;
-	margin-bottom:20px;
+pre {
+  margin-top:20px;
+  margin-bottom:20px;
 }
 
 .navbar-inverse{
@@ -31,5 +23,5 @@ pre{
 }
 
 body > div.row {
-    margin-right: 0px;
+  margin-right: 0px;
 }
